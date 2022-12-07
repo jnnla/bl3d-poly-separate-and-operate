@@ -10,4 +10,4 @@ This script was written and used in Blender 3.3. This script was intented to do 
 2) Create null objects at every vertex of each separated polygon and parent those nulls to that polygon
 3) 'Shrink' that separated polygon with an inset and delete the edge faces to create space between all the polys of the mesh. 
 
-![](name-of-giphy.gif)d
+![](bl_poly_sep.gif)
