@@ -11,3 +11,5 @@ This script was written and used in Blender 3.3. This script was intented to do 
 3) 'Shrink' that separated polygon with an inset and delete the edge faces to create space between all the polys of the mesh. 
 
 ![](bl_poly_sep.gif)
+
+It is slow and probably inefficient from a code-standpoint, but it works. 
