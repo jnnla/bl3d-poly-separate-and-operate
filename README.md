@@ -2,7 +2,7 @@
 
 A python script for Blender that separates every polygon of a mesh and adds child nulls at each vertex.
 
-This is a utility script I created for a specific project and does a very specific thing. My hope is that sharing this will help others in some way. I don't claim to have any expertise and understanding of programming or code. I'm just experimenting and sometimes my experiments work.
+DISCLAIMER: This is a utility script I created for a specific project and does a very specific thing. My hope is that sharing this will help others in some way. I don't claim to have any expertise and understanding of programming or code. I'm just experimenting and sometimes my experiments work.
 
 This script was written and used in Blender 3.3. This script was intented to do a few things:
 
