@@ -1,5 +1,27 @@
 import bpy
 
+#---------------------------------------------------------------#
+
+#UTIL FUNCTIONS:
+
+#SELECT A FACE OF A SELECTED OBJECT BY POLYGON INDEX:
+def polySelect(selectedObject,polyIndex):
+    bpy.ops.object.mode_set(mode = 'OBJECT')
+    selectedObject.data.polygons[polyIndex].select = True
+    bpy.ops.object.mode_set(mode = 'EDIT') 
+
+#DESELECT MESH COMPONENTS OF A SELECTED OBJECT:
+def deselectComponents(selectedObject):
+    #Set to object mode:
+    bpy.ops.object.mode_set(mode = 'OBJECT')
+    #mesh components:
+    componentData = {1:["polygons","face"], 2:["vertices","vertex"], 3: ["edges","edge"]}
+    #loop through the 3 types of component and deselect them.
+    for each in componentData:
+        for type in getattr(selectedObject.data,componentData[each][0]):
+            type.select = False
+
+#---------------------------------------------------------------#
 #define selection as active object:
 sel = bpy.context.active_object
 
@@ -13,14 +35,10 @@ for n in range(polyCount-1,0,-1):
     sel.select_set(True)
     
     #deselect all faces in edit mode
-    bpy.ops.object.mode_set(mode = 'EDIT') 
-    bpy.ops.mesh.select_mode(type="FACE")
-    bpy.ops.mesh.select_all(action = 'DESELECT')
+    deselectComponents(sel)
 
-    #return to object mode to select polygon by index, then flip to edit to see selection.
-    bpy.ops.object.mode_set(mode = 'OBJECT')
-    sel.data.polygons[n].select = True
-    bpy.ops.object.mode_set(mode = 'EDIT') 
+    #select Polygon by Index
+    polySelect(sel,n)
 
     #Separate the selected polygon:
     bpy.ops.mesh.separate(type='SELECTED')
