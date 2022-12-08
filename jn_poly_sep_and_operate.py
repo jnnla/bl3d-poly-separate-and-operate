@@ -21,12 +21,24 @@ def deselectComponents(selectedObject):
         for type in getattr(selectedObject.data,componentData[each][0]):
             type.select = False
 
+#ACTIVATE LAST SELECTED OBJECT IN A GROUP OF SELECTED OBJECTS:
+def activateMostRecent():
+    bpy.ops.object.mode_set(mode = 'OBJECT')
+    last = bpy.context.selected_objects.pop()
+    bpy.ops.object.select_all(action='DESELECT')
+    last.select_set(True)
+    global active
+    active = bpy.context.view_layer.objects.active
+
 #---------------------------------------------------------------#
 #define selection as active object:
 sel = bpy.context.active_object
 
 #Get polyCount of active object:
 polyCount = len(sel.data.polygons.values())
+
+#amount of inset for later:
+insetAmt = 0.00525
 
 #loop downwards from top of polycount:
 for n in range(polyCount-1,0,-1):
@@ -43,14 +55,8 @@ for n in range(polyCount-1,0,-1):
     #Separate the selected polygon:
     bpy.ops.mesh.separate(type='SELECTED')
 
-    #isolate the separated polygon:
-    bpy.ops.object.mode_set(mode = 'OBJECT')
-    split =  bpy.context.selected_objects.pop()
-    bpy.ops.object.select_all(action='DESELECT') #deselect all
-
-    #make separated polygon active:
-    split.select_set(True)
-    bpy.context.view_layer.objects.active = split
+    #select it:
+    activateMostRecent()
 
     # Create a null object for each vertex
     splitMesh = bpy.context.object.data
@@ -58,14 +64,14 @@ for n in range(polyCount-1,0,-1):
         null = bpy.data.objects.new("Null", None)
         null.empty_display_size = 0.05
         null.location = vertex.co
-        null.parent = split
+        null.parent = active
         bpy.context.collection.objects.link(null)
 
     bpy.ops.object.mode_set(mode = 'EDIT')
     bpy.ops.mesh.select_all(action='SELECT')
 
     #inset and delete edge faces
-    bpy.ops.mesh.inset(thickness=0.000525, depth=0)
+    bpy.ops.mesh.inset(thickness=insetAmt, depth=0)
     bpy.ops.mesh.select_all(action='INVERT')
     bpy.ops.mesh.delete(type='FACE')
 
