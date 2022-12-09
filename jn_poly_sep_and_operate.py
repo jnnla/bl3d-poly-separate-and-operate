@@ -51,7 +51,7 @@ for n in range(polyCount-1,0-1,-1):
     bpy.ops.mesh.select_all(action='SELECT')
 
     #inset and delete edge faces
-    bpy.ops.mesh.inset(thickness=0.0525, depth=0)
+    bpy.ops.mesh.inset(thickness=0.000525, depth=0)
     bpy.ops.mesh.select_all(action='INVERT')
     bpy.ops.mesh.delete(type='FACE')
 
