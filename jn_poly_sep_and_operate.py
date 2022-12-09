@@ -7,7 +7,7 @@ sel = bpy.context.active_object
 polyCount = len(sel.data.polygons.values())
 
 #loop downwards from top of polycount:
-for n in range(polyCount-1,0,-1):
+for n in range(polyCount-1,0-1,-1):
     
     #select original selection
     sel.select_set(True)
@@ -33,6 +33,10 @@ for n in range(polyCount-1,0,-1):
     #make separated polygon active:
     split.select_set(True)
     bpy.context.view_layer.objects.active = split
+    
+    #origin to median
+    bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY', center='MEDIAN')
+
 
     # Create a null object for each vertex
     splitMesh = bpy.context.object.data
@@ -47,7 +51,7 @@ for n in range(polyCount-1,0,-1):
     bpy.ops.mesh.select_all(action='SELECT')
 
     #inset and delete edge faces
-    bpy.ops.mesh.inset(thickness=0.000525, depth=0)
+    bpy.ops.mesh.inset(thickness=0.0525, depth=0)
     bpy.ops.mesh.select_all(action='INVERT')
     bpy.ops.mesh.delete(type='FACE')
 
